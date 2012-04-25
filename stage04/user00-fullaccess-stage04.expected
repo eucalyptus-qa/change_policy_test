@@ -1,0 +1,141 @@
+LOG FILE:
+trial-0000-stage-004-task-run-script-confirm_add_ops_dot_pl.out
+
+
++++++++++++++++++++++++++++++++++++++++++++++ Analyze Stage [004] ++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ANALYZE [CONFIRM_ADD_AND_OPS]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+ACTION:
+add_user_to_group_given_account_and_user_and_target_group_and_user("euare-policy-test-account", "user00", "group02", "user00"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+add_user_to_group_given_account_and_user_and_target_group_and_user("euare-policy-test-account", "user00", "group02", "user02"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+add_policy_to_group_given_account_and_user_and_target_group_and_policy_and_effect("euare-policy-test-account", "user00", "group01", "test.policy", "Allow"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+add_policy_to_user_given_account_and_user_and_target_user_and_policy_and_effect("euare-policy-test-account", "user00", "user02", "test.policy", "Allow"):
+
+EXPECT:
+::NULL::
+
+
+
+
+ACTION:
+list_all_users_in_group_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group00"):
+
+EXPECT:
+group00 user00
+
+
+ACTION:
+list_all_users_in_group_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group01"):
+
+EXPECT:
+group01 user02
+
+
+ACTION:
+list_all_users_in_group_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group02"):
+
+EXPECT:
+group02 user00 user02
+
+
+
+ACTION:
+list_all_groups_in_user_given_account_and_user_and_target_user("euare-policy-test-account", "admin", "user00"):
+
+EXPECT:
+group00
+
+
+
+ACTION:
+list_all_groups_in_user_given_account_and_user_and_target_user("euare-policy-test-account", "admin", "user01"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+list_all_groups_in_user_given_account_and_user_and_target_user("euare-policy-test-account", "admin", "user02"):
+
+EXPECT:
+group01 group02
+
+
+
+ACTION:
+list_all_group_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group00"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+list_all_group_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group01"):
+
+EXPECT:
+fullaccess.policy test.policy
+
+
+
+ACTION:
+list_all_group_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group02"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+list_all_user_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "user00"):
+
+EXPECT:
+fullaccess.policy
+
+
+
+ACTION:
+list_all_user_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "user01"):
+
+EXPECT:
+fullaccess.policy
+
+
+
+ACTION:
+list_all_user_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "user02"):
+
+EXPECT:
+test.policy
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+END OF ANALYZE [CONFIRM_ADD_AND_OPS]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+

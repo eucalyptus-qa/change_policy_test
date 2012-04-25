@@ -1,0 +1,18 @@
+{
+ "Statement": [
+   {
+     "Sid": "Stmt1314039664265",
+     "Action": "iam:*",
+     "Effect": "Allow",
+     "Resource": "*"
+   },
+   {
+     "Sid": "Stmt1314039686484",
+     "Action": [
+       "iam:Delete*"
+     ],
+     "Effect": "Deny",
+     "Resource": "*"
+   }
+ ]
+}

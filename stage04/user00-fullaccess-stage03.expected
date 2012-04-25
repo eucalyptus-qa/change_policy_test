@@ -1,0 +1,68 @@
+LOG FILE:
+trial-0000-stage-003-task-run-script-confirm_create_ops_dot_pl.out
+
+
++++++++++++++++++++++++++++++++++++++++++++++ Analyze Stage [003] ++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ANALYZE [CONFIRM_CREATE_AND_OPS]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+ACTION:
+create_account_given_account_and_user_and_target_account("euare-policy-test-account", "user00", "euare-policy-test-account-dup"):
+
+EXPECT:
+Error NotAuthorized
+
+
+
+ACTION:
+create_group_given_account_and_user_and_target_group("euare-policy-test-account", "user00", "group00-dup"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+create_user_given_account_and_user_and_target_user("euare-policy-test-account", "user00", "user00-dup"):
+
+EXPECT:
+::NULL::
+
+
+
+
+ACTION:
+list_all_accounts_given_account_and_user("eucalyptus", "admin"):
+
+EXPECT:
+euare-policy-test-account
+
+
+
+ACTION:
+list_all_groups_given_account_and_user("euare-policy-test-account", "admin"):
+
+EXPECT:
+group00 group01 group02 group00-dup
+
+
+
+ACTION:
+list_all_users_given_account_and_user("euare-policy-test-account", "admin"):
+
+EXPECT:
+admin user00 user01 user02 user00-dup
+
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+END OF ANALYZE [CONFIRM_CREATE_AND_OPS]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+

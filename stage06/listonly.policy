@@ -1,0 +1,12 @@
+{
+ "Statement": [
+   {
+     "Sid": "Stmt1313686153864",
+     "Action": [
+       "iam:List*"
+     ],
+     "Effect": "Allow",
+     "Resource": "*"
+   }
+ ]
+}

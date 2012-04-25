@@ -1,0 +1,147 @@
+LOG FILE:
+trial-0000-stage-005-task-run-script-confirm_delete_ops_dot_pl.out
+
+
++++++++++++++++++++++++++++++++++++++++++++++ Analyze Stage [005] ++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ANALYZE [CONFIRM_DELETE_AND_OPS]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+ACTION:
+delete_user_policy_given_account_and_user_and_target_user_policy("euare-policy-test-account", "user00", "user01", "fullaccess.policy"):
+
+EXPECT:
+Error NotAuthorized
+
+
+ACTION:
+delete_user_given_account_and_user_and_target_user("euare-policy-test-account", "user00", "user02"):
+
+EXPECT:
+Error NotAuthorized
+
+
+ACTION:
+delete_group_policy_given_account_and_user_and_target_group_and_policy("euare-policy-test-account", "user00", "group01", "fullaccess.policy"):
+
+EXPECT:
+Error NotAuthorized
+
+
+ACTION:
+delete_group_given_account_and_user_and_target_group("euare-policy-test-account", "user00", "group02"):
+
+EXPECT:
+Error NotAuthorized
+
+
+ACTION:
+delete_account_given_account_and_user_and_target_account("euare-policy-test-account", "user00", "euare-policy-test-account"):
+
+EXPECT:
+Error NotAuthorized
+
+
+
+
+
+ACTION:
+list_all_accounts_given_account_and_user("eucalyptus", "admin"):
+
+EXPECT:
+euare-policy-test-account
+
+
+
+ACTION:
+list_all_users_given_account_and_user("euare-policy-test-account", "admin"):
+
+EXPECT:
+admin user00 user01 user02 user00-dup
+
+
+
+ACTION:
+list_all_user_policies_given_account_and_user_and_target_user("euare-policy-test-account", "admin", "admin"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+list_all_user_policies_given_account_and_user_and_target_user("euare-policy-test-account", "admin", "user00"):
+
+EXPECT:
+allbutdelete.policy
+
+
+
+ACTION:
+list_all_user_policies_given_account_and_user_and_target_user("euare-policy-test-account", "admin", "user01"):
+
+EXPECT:
+fullaccess.policy
+
+
+ACTION:
+list_all_user_policies_given_account_and_user_and_target_user("euare-policy-test-account", "admin", "user02"):
+
+EXPECT:
+test.policy
+
+
+
+ACTION:
+list_all_user_policies_given_account_and_user_and_target_user("euare-policy-test-account", "admin", "user00-dup"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+list_all_groups_given_account_and_user("euare-policy-test-account", "admin"):
+
+EXPECT:
+group00 group01 group02 group00-dup
+
+
+
+ACTION:
+list_all_group_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group00"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+list_all_group_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group01"):
+
+EXPECT:
+fullaccess.policy test.policy
+
+
+ACTION:
+list_all_group_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group02"):
+
+EXPECT:
+::NULL::
+
+
+ACTION:
+list_all_group_policies_given_account_and_user_and_target_group("euare-policy-test-account", "admin", "group00-dup"):
+
+EXPECT:
+::NULL::
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+END OF ANALYZE [CONFIRM_DELETE_AND_OPS]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
