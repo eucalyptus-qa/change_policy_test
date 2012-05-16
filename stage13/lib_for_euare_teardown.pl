@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 use strict;
 
+require "./retry_ssh.pl";
+
 ########################## SUBROUTINES #####################################
 
 sub get_all_accounts{
@@ -9,7 +11,7 @@ sub get_all_accounts{
 
 	### get all accounts
 	print "$ENV{'QA_CLC_IP'} :: euare-accountlist\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist\"");
 	print "\n";
 
 	return $out
@@ -38,7 +40,7 @@ sub remove_all_users_in_group{
 
 	### get all users in group
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistusers -g $group\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistusers -g $group\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistusers -g $group\"");
 	print "\n";
 	print "$out\n";
 	print "\n";
@@ -59,7 +61,7 @@ sub remove_all_users_in_group{
 
 	### verify that users have been cleared off
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistusers -g $group\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistusers -g $group\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistusers -g $group\"");
 	print "\n";
 	print "$out\n";
 	if( $out =~/:user\/(.+)/m ){
@@ -87,7 +89,7 @@ sub remove_user_in_group{
 
 	### verify the removal
         print "$ENV{'QA_CLC_IP'} :: euare-grouplistusers -g $group\n";
-        my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistusers -g $group\" `;
+        my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistusers -g $group\"");
         print "\n";
         print "$out\n";
         print "\n";
@@ -108,7 +110,7 @@ sub remove_all_policies_in_group{
 
 	### get all policies in group
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistpolicies -g $group\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistpolicies -g $group\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistpolicies -g $group\"");
 	print "\n";
 	print "$out\n";
 	print "\n";
@@ -129,7 +131,7 @@ sub remove_all_policies_in_group{
 
 	### verify that policies have been cleared off
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistpolicies -g $group\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistpolicies -g $group\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistpolicies -g $group\"");
 	print "\n";
 	print "$out\n";
 	if( $out =~/^(.+)/m ){
@@ -157,7 +159,7 @@ sub remove_policy_in_group{
 
 	### verify the removal
         print "$ENV{'QA_CLC_IP'} :: euare-grouplistpolicies -g $group\n";
-        my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistpolicies -g $group\" `;
+        my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistpolicies -g $group\"");
         print "\n";
         print "$out\n";
         print "\n";
@@ -179,7 +181,7 @@ sub remove_all_groups_in_account{
 
 	### get all groups in account
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistbypath\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath \"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath \"");
 	print "\n";
 	print "$out\n";
 	print "\n";
@@ -200,7 +202,7 @@ sub remove_all_groups_in_account{
 
 	### verify that groups have been cleared off
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistbypath\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath\"");
 	print "\n";
 	print "$out\n";
 	if( $out =~/:group\/(.+)/m ){
@@ -227,7 +229,7 @@ sub remove_group_in_account{
 
 	### verify the removal
         print "$ENV{'QA_CLC_IP'} :: euare-grouplistbypath\n";
-        my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath\" `;
+        my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath\"");
         print "\n";
         print "$out\n";
         print "\n";
@@ -249,7 +251,7 @@ sub remove_all_users_in_account{
 
 	### get all users in account
 	print "$ENV{'QA_CLC_IP'} :: euare-userlistbypath\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath \"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath \"");
 	print "\n";
 	print "$out\n";
 	print "\n";
@@ -272,7 +274,7 @@ sub remove_all_users_in_account{
 
 	### verify that groups have been cleared off
 	print "$ENV{'QA_CLC_IP'} :: euare-userlistbypath\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath\"");
 	print "\n";
 	print "$out\n";
 	if( $out =~/:user\/(.+)/m ){
@@ -301,7 +303,7 @@ sub remove_user_in_account{
 
 	### verify the removal
         print "$ENV{'QA_CLC_IP'} :: euare-userlistbypath\n";
-        my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath\" `;
+        my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath\"");
         print "\n";
         print "$out\n";
         print "\n";
@@ -323,7 +325,7 @@ sub remove_all_policies_in_user{
 
 	### get all policies in user
 	print "$ENV{'QA_CLC_IP'} :: euare-userlistpolicies -u $user\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistpolicies -u $user\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistpolicies -u $user\"");
 	print "\n";
 	print "$out\n";
 	print "\n";
@@ -344,7 +346,7 @@ sub remove_all_policies_in_user{
 
 	### verify that policies have been cleared off
 	print "$ENV{'QA_CLC_IP'} :: euare-userlistpolicies -u $user\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistpolicies -u $user\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistpolicies -u $user\"");
 	print "\n";
 	print "$out\n";
 	if( $out =~/^(.+)/m ){
@@ -372,7 +374,7 @@ sub remove_policy_in_user{
 
 	### verify the removal
         print "$ENV{'QA_CLC_IP'} :: euare-userlistpolicies -u $user\n";
-        my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistpolicies -u $user\" `;
+        my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistpolicies -u $user\"");
         print "\n";
         print "$out\n";
         print "\n";
@@ -391,7 +393,7 @@ sub remove_all_accounts{
 
 	### get all account
 	print "$ENV{'QA_CLC_IP'} :: euare-accountlist\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist\"");
 	print "\n";
 	print "$out\n";
 	print "\n";
@@ -414,7 +416,7 @@ sub remove_all_accounts{
 
 	### verify that policies have been cleared off
 	print "$ENV{'QA_CLC_IP'} :: euare-accountlist \n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist\"");
 	print "\n";
 	print "$out\n";
 	if( $out =~/^(\S+)\s+\d+/m ){
@@ -442,7 +444,7 @@ sub remove_account{
 
 	### verify the removal
         print "$ENV{'QA_CLC_IP'} :: euare-accountlist \n";
-        my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist \" `;
+        my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist \"");
         print "\n";
         print "$out\n";
         print "\n";

@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 use strict;
 
+require "./retry_ssh.pl";
+
 ########################## SUBROUTINES #####################################
 
 sub get_user_credentials{
@@ -18,7 +20,7 @@ sub get_user_credentials{
 
 	### Download account credentials
 	print "ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"ls /root/$zip_file\" \n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"ls /root/$zip_file\" `;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"ls /root/$zip_file\"");
 	
 	print "LOCATED on CLC:";
 	print "$out\n";
@@ -66,7 +68,7 @@ sub unzip_cred_on_clc{
 
 	### unzip credentials
 	print("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"mkdir -p /root/cred_depot/$cred_name/$user_name; mv /root/$zip_file /root/cred_depot/$cred_name/$user_name/.; cd /root/cred_depot/$cred_name/$user_name; unzip -o $zip_file\"\n");
-	my $out =`ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"mkdir -p /root/cred_depot/$cred_name/$user_name; mv /root/$zip_file /root/cred_depot/$cred_name/$user_name/.; cd /root/cred_depot/$cred_name/$user_name; unzip -o $zip_file\" `;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"mkdir -p /root/cred_depot/$cred_name/$user_name; mv /root/$zip_file /root/cred_depot/$cred_name/$user_name/.; cd /root/cred_depot/$cred_name/$user_name; unzip -o $zip_file\"");
 	print "\n";
 
 	print "$out\n";
@@ -97,7 +99,7 @@ sub create_account{
 	print "########################### EUARE-ACCOUNTLIST ##############################\n";
 
 	print "$ENV{'QA_CLC_IP'} :: euare-accountlist\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist\" `;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/eucalyptus/admin/eucarc; euare-accountlist\"");
 	print "\n";
 	print $out . "\n";
 	print "\n";
@@ -129,7 +131,7 @@ sub create_account_user{
 	print "########################### EUARE-USERLISTBYPATH ##############################\n";
 
 	print "$ENV{'QA_CLC_IP'} :: euare-userlistbypath\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath\" `;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath\"");
 	print "\n";
 	print $out . "\n";
 	print "\n";
@@ -258,6 +260,7 @@ sub read_input_file{
 
 	return 0;
 };
+
 
 1;
 

@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+use strict;
+
+require "./retry_ssh.pl";
 
 sub set_account_user_policy{
 	my $account = shift @_;
@@ -20,7 +23,7 @@ sub set_account_user_policy{
 
 	### verify account group policy via 'euare-userlistpolicies -g'
 	print "$ENV{'QA_CLC_IP'} :: euare-userlistpolicies -u $user\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistpolicies -u $user\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistpolicies -u $user\"");
 	print "\n";
 	print "$out\n";
 	if( !($out =~ /$policy/) ){

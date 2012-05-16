@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 use strict;
 
+require "./retry_ssh.pl";
+
 ########################## SUBROUTINES #####################################
 
 sub create_account_group{
@@ -20,7 +22,7 @@ sub create_account_group{
 	print "########################### EUARE-GROUPLISTBYPATH ##############################\n";
 
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistbypath\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath\" `;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath\"");
 	print "\n";
 	print $out . "\n";
 	print "\n";
@@ -81,7 +83,7 @@ sub set_account_group_policy{
 
 	### verify account group policy via 'euare-grouplistpolicies -g'
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistpolicies -g $group\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistpolicies -g $group\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistpolicies -g $group\"");
 	print "\n";
 	print "$out\n";
 	if( !($out =~ /$policy/) ){
@@ -103,7 +105,7 @@ sub get_account_group_policy{
 
 	### get account group policy via 'euare-groupgetpolicy'
 	print "$ENV{'QA_CLC_IP'} :: euare-groupgetpolicy -g $group -p $policy\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-groupgetpolicy -g $group -p $policy\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-groupgetpolicy -g $group -p $policy\"");
 	print "\n";
 
 	return $out
@@ -117,7 +119,7 @@ sub get_account_groups{
 
 	### get account groups
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistbypath\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistbypath\"");
 	print "\n";
 
 	return $out
@@ -146,7 +148,7 @@ sub get_account_users{
 
 	### get account users
 	print "$ENV{'QA_CLC_IP'} :: euare-userlistbypath\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-userlistbypath\"");
 	print "\n";
 
 	return $out
@@ -187,7 +189,7 @@ sub set_account_user_to_group{
 
 	### verify account group add user
 	print "$ENV{'QA_CLC_IP'} :: euare-grouplistusers -g $group\n";
-	my $out = `ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistusers -g $group\"`;
+	my $out = retry_ssh("ssh -o ServerAliveInterval=1 -o ServerAliveCountMax=5 -o StrictHostKeyChecking=no root\@$ENV{'QA_CLC_IP'} \"source /root/cred_depot/$account/admin/eucarc; euare-grouplistusers -g $group\"");
 	print "\n";
 	print "$out\n";
 	if( !($out =~ /$user/) ){
