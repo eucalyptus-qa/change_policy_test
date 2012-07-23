@@ -85,7 +85,7 @@ ACTION:
 list_all_users_in_group_given_account_and_user_and_target_group("euare-policy-test-account", "user00", "group00"):
 
 EXPECT:
-Error NotAuthorized
+Error(None): None
 
 
 
@@ -93,7 +93,7 @@ ACTION:
 list_all_users_in_group_given_account_and_user_and_target_group("euare-policy-test-account", "user00", "group01"):
 
 EXPECT:
-Error NotAuthorized
+Error(None): None
 
 
 
@@ -101,7 +101,7 @@ ACTION:
 list_all_users_in_group_given_account_and_user_and_target_group("euare-policy-test-account", "user00", "group02"):
 
 EXPECT:
-Error NotAuthorized
+Error(None): None
 
 
 
