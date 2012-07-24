@@ -14,35 +14,35 @@ ACTION:
 delete_user_policy_given_account_and_user_and_target_user_policy("euare-policy-test-account", "user00", "user01", "fullaccess.policy"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 ACTION:
 delete_user_given_account_and_user_and_target_user("euare-policy-test-account", "user00", "user02"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 ACTION:
 delete_group_policy_given_account_and_user_and_target_group_and_policy("euare-policy-test-account", "user00", "group01", "fullaccess.policy"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 ACTION:
 delete_group_given_account_and_user_and_target_group("euare-policy-test-account", "user00", "group02"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 ACTION:
 delete_account_given_account_and_user_and_target_account("euare-policy-test-account", "user00", "euare-policy-test-account"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 

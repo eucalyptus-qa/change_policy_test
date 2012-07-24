@@ -14,7 +14,7 @@ ACTION:
 create_account_given_account_and_user_and_target_account("euare-policy-test-account", "user00", "euare-policy-test-account-dup"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 
@@ -22,7 +22,7 @@ ACTION:
 create_group_given_account_and_user_and_target_group("euare-policy-test-account", "user00", "group00-dup"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 
@@ -30,7 +30,7 @@ ACTION:
 create_user_given_account_and_user_and_target_user("euare-policy-test-account", "user00", "user00-dup"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 

@@ -14,7 +14,7 @@ ACTION:
 create_account_given_account_and_user_and_target_account("euare-policy-test-account", "user00", "euare-policy-test-account-dup"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 

@@ -15,28 +15,28 @@ ACTION:
 add_user_to_group_given_account_and_user_and_target_group_and_user("euare-policy-test-account", "user00", "group02", "user00"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 ACTION:
 add_user_to_group_given_account_and_user_and_target_group_and_user("euare-policy-test-account", "user00", "group02", "user02"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 ACTION:
 add_policy_to_group_given_account_and_user_and_target_group_and_policy_and_effect("euare-policy-test-account", "user00", "group01", "test.policy", "Allow"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 ACTION:
 add_policy_to_user_given_account_and_user_and_target_user_and_policy_and_effect("euare-policy-test-account", "user00", "user02", "test.policy", "Allow"):
 
 EXPECT:
-Error(None): None
+Error NotAuthorized
 
 
 
