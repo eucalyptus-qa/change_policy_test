@@ -1,3 +1,45 @@
+change_policy_test
+==================
+
+## Description
+
+Validate "euare-" commands while applying different policies on a user.
+
+## Procedure
+
+The goal of this test is to validate "euare-" commands while
+applying different policies on a user.
+
+It is confusing because there is already a test called
+"alter_policy_and_confirm", which is to validate "ec2-" coammands
+while changing policies. Eventually, these 2 tests will be merged into
+one.
+
+The test "change_policy_test" uses 5 different policies:
+
+1. fullaccess.policy - gives full access to user
+
+2. listonly.policy - allows user to list only
+
+3. allbutdelete.policy - allows user to do all, but delete
+
+4. allbutcreate.policy - allows user to do all, but create
+
+5. allbutadd.policy - allows user to do all, but add
+
+
+In each case, the test "change_policy_test" runs a test
+"euare_coverage_test", that goes through 4 euare-commands groups:
+
+1. list
+
+2. create
+
+3. add
+
+4. delete
+
+
 # Eucalyptus Testunit Framework
 
 Eucalyptus Testunit Framework is designed to run a list of test scripts written by Eucalyptus developers.
